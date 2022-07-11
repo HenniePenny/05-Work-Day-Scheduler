@@ -2,8 +2,6 @@
 let currentDayEl = $("#currentDay");
 let scheduleEL = $(".container");
 
-const businessHours = ["9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
-
 //displaying the current day
 let today = moment().format('dddd, MMMM Do');
 currentDayEl.text(today);
@@ -14,7 +12,6 @@ currentDayEl.text(today);
 function colorRow () {
     //getting the hours from the current time. Accepts numbers from 0 to 23.
   let timeNow = moment().hours();
-  //console.log(timeNow);
 
   //for each time-block execute the function
   $(".time-block").each(function() {
@@ -39,49 +36,37 @@ colorRow();
 
 //ToDo: setting an Interval (e.g. every 15 minutes), so that the page updates the time without having to refresh the page
 //execute colorRow every 15 minutes to update 
-setInterval
+//setInterval
 
 //save text input to local storage
 function saveInput() {
-  //savebutton sibling with class tag description, value of the text area
+  //save button sibling with class tag description, value of the text area
   let text = $(this).siblings(".description").val();
-  //savebutton parent with attribute id gives the hour
+  //save button parent with attribute id gives the hour
   let hour = $(this).parent().attr("id");
   console.log(text, hour);
   localStorage.setItem(hour, text); //save the text in the line of the hour, first argument is key 
+  //create the hourObject with date and ToDo, so that I can later check whether it's a new day or not
   let hourObject = {
     date: today,
     textToDo: text,
   }
+  //adding data to the web storage object. JSON.stringify converts object into a string, b/c we can only store stings in window.localStorage object
   window.localStorage.setItem(hour, JSON.stringify(hourObject));
 }
 
-
-
-
 let saveButton = $(".saveBtn");
 saveButton.on("click", saveInput);
+
 //reload from local storage
 for (i = 9; i<18; i++) {
+  //retrieving the JS object, which was previously saved as a JSON string (parsing the string)
   let hourObject = JSON.parse(localStorage.getItem(i))
+  //checks if the date is today, then it will display the ToDo, otherwise not
   if(hourObject.date === today) {
     $('#'+ i + ' .description').val(hourObject.textToDo);
-
   }
-
 }
- //id 9 find class description and update the elements' value from local storage with key 9
-
-// $('#10 .description').val(localStorage.getItem('10'));
-// $('#11 .description').val(localStorage.getItem('11'));
-// $('#12 .description').val(localStorage.getItem('12'));
-// $('#13 .description').val(localStorage.getItem('13'));
-// $('#14 .description').val(localStorage.getItem('14'));
-// $('#15 .description').val(localStorage.getItem('15'));
-// $('#16 .description').val(localStorage.getItem('16'));
-// $('#17 .description').val(localStorage.getItem('17'));
-
-
-let newObject = window.localStorage.getItem("myObject");
+ 
+let newObject = window.localStorage.getItem("newObject");
 console.log(JSON.parse(newObject));
-
