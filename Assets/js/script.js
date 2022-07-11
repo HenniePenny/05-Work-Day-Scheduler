@@ -64,7 +64,7 @@ for (i = 9; i<18; i++) {
   let hourObject = JSON.parse(localStorage.getItem(i))
   //checks if the date is today, then it will display the ToDo, otherwise not
   if(hourObject.date === today) {
-    $('#'+ i + ' .description').val(hourObject.textToDo);
+    $("#"+ i + " .description").val(hourObject.textToDo);
   }
 }
  
